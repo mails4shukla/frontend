@@ -5,13 +5,26 @@ const gcpMetadata = require('gcp-metadata');
 var mysql = require('mysql');
 
 
-async function quickstart() {
+async function getDatabaseIp() {
   const isAvailable = await gcpMetadata.isAvailable();
   console.log(`Is available: ${isAvailable}`);
 
   if (isAvailable) {
-    const projectMetadata = await gcpMetadata.project('attributes/database_ip');
+	  const projectMetadata = await gcpMetadata.project('attributes/database_ip');
     return (projectMetadata)
+  }
+
+}
+
+
+async function getZone() {
+  const isAvailable = await gcpMetadata.isAvailable();
+  console.log(`Is available: ${isAvailable}`);
+
+  if (isAvailable) {
+
+          const getZone = await gcpMetadata.instance('zone');
+    return (getZone)
   }
 
 }
@@ -19,9 +32,10 @@ async function quickstart() {
 
 app.get('/',  async(req, res) => {
      
-	var projectMetadata= await quickstart();
-        var con = mysql.createConnection({
-        host: projectMetadata,
+	var getdatabase= await getDatabaseIp();
+        var getzone = await getZone();
+	var con = mysql.createConnection({
+        host: getdatabase,
         user: "root",
         password: "password",
 	database: "simpleapi"
@@ -32,8 +46,8 @@ app.get('/',  async(req, res) => {
            console.log("Connected!");
            con.query("select * from users", function (err, result) {
            if (err) throw err;
-              console.log("Result: " + result);
-              res.send(result);
+              var total_result = "Result: " + JSON.stringify(result) + "serverd from  Zone : " + getzone;
+              res.send(total_result);
 	   });
          });
 //	res.send('Hello World!'+ projectMetadata);
