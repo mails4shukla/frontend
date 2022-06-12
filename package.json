@@ -11,6 +11,6 @@
   "dependencies": {
     "express": "^4.17.3",
     "gcp-metadata": "^5.0.0",
-    "mysql": "^2.18.1"
+    "mysql2": latest
   }
 }
