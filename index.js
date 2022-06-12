@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const gcpMetadata = require('gcp-metadata');
-var mysql = require('mysql');
+var mysql = require('mysql2');
 
 
 async function getDatabaseIp() {
@@ -32,7 +32,7 @@ async function getZone() {
 
 app.get('/',  async(req, res) => {
      
-	var getdatabase= await getDatabaseIp();
+	// var getdatabase= await getDatabaseIp();
         var getzone = await getZone();
 	var con = mysql.createConnection({
         host: getdatabase,
