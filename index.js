@@ -35,7 +35,7 @@ app.get('/',  async(req, res) => {
 	// var getdatabase= await getDatabaseIp();
         var getzone = await getZone();
 	var con = mysql.createConnection({
-        host: getdatabase,
+        host: "10.111.64.215",
         user: "root",
         password: "password",
 	database: "simpleapi"
